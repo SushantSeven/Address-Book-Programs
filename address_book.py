@@ -1,5 +1,5 @@
 # creating address book class
-class Contact():
+class AddressBook():
     # init method to print the heading
     def __init__(self):
          # take user details as input
@@ -18,5 +18,5 @@ class Contact():
         print(user_contact)
 
 
-user = Contact() # creating instance of address book class
+user = AddressBook() # creating instance of address book class
 user.create_contact()
