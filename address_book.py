@@ -3,8 +3,8 @@ class AddressBook():
     def __init__(self):
          # take user details as input
         self.first_name = input("Enter your first name: ")
-        self.address = input("Enter your address: ")
         self.last_name = input("Enter your last name: ")
+        self.address = input("Enter your address: ")
         self.city = input("Enter your city: ")
         self.state = input("Enter your state: ")
         self.zip = input("Enter your zip code: ")
@@ -22,6 +22,20 @@ class AddressBook():
         self.contact_book.append(self.user_contact) # appending new contact to address book
         print(self.contact_book)
 
+    def edit_contact(self):
+        name = input("Enter the name: ")
+        details_to_edited = input("Enter the details to be edited: ").split(" ")
+        for contact in self.contact_book:
+            if contact["first name"] == name:
+                for x in details_to_edited:
+                    print(f"Enter the new {x}")
+                    contact[x] = input()
+
+        print("Edited details are: ")
+        print(self.contact_book)
+
+        
 user = AddressBook() # creating instance of address book class
 user.create_contact()
 user.add_new_contact()
+user.edit_contact()
