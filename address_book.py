@@ -36,7 +36,7 @@ class AddressBook():
             self.ch = input("\nPress Y to add another person's details or press X if you are done: ").lower()
         return self.contact_book
     
-    # function to add multiple contacts to th address book 
+    # function to add multiple contacts to the address book 
     def add_multiple_contact(self,num_of_contacts):
         self.num_of_ccontacts = num_of_contacts
         for i in range(1,num_of_contacts+1):
