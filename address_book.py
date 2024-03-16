@@ -93,9 +93,9 @@ class CreateAddressBook(AddressBook):
 
 def main_menu():
     choice = 1 # variable to loop main menu
-    choice_2 = 1 # variable to loop address book menu
     address_book_list = []
     while choice != 0:
+            choice_2 = 1 # variable to loop address book menu
             print("\n_____MAIN---MENU_____\n")
             print("1. CREATE AN ADDRESS BOOK")
             print("2. SELECT ADDRESS BOOK")
