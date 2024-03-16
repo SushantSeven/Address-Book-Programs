@@ -35,6 +35,15 @@ class AddressBook():
             print("\ncontact Added!!")
             self.ch = input("\nPress Y to add another person's details or press X if you are done: ").lower()
         return self.contact_book
+    
+    # function to add multiple contacts to th address book 
+    def add_multiple_contact(self,num_of_contacts):
+        self.num_of_ccontacts = num_of_contacts
+        for i in range(1,num_of_contacts+1):
+            print("\nENTER THE DETAILS OF PERSON",i)
+            self.create_contact() # contact is created 
+            self.contact_book.append(self.user_contact) # contact is appended to the address book
+        print("\n",num_of_contacts,"CONTACT(S) ADDED SUCCESSFULLY!!!")
 
     def edit_contact(self):
         self.add_new_contact() # add new contact is called
@@ -73,8 +82,9 @@ def main_menu():
     while choice != 0:
             print("\n1. CREATE A CONTACT")
             print("2. ADD NEW CONTACT")
-            print("3. EDIT CONTACT")
-            print("4. DELETE CONTACT\n")
+            print("3. ADD MULTIPLE CONTACT")
+            print("4. EDIT CONTACT")
+            print("5. DELETE CONTACT\n")
             print("0. EXIT\n")
             try:
                 choice = int(input("ENTER YOUR OPTION: "))
@@ -89,8 +99,11 @@ def main_menu():
                     case 2:
                         user.add_new_contact()
                     case 3:
-                        user.edit_contact()
+                        num_of_contacts = int(input("Enter the number of contacts you want to add: "))
+                        user.add_multiple_contact(num_of_contacts)
                     case 4:
+                        user.edit_contact()
+                    case 5:
                         user.delete_contact()
 
 
