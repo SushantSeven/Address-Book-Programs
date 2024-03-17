@@ -85,10 +85,19 @@ class AddressBook():
         else:
             for contact in self.contact_book:
                 if conatct_del_fname in contact.values() and conatct_del_lname in contact.values():
-                    contact.clear()  # contact is deleted if it is present in the address book
-                    print("\nAfter deletion-")
-                    self.print_contact_book()
-                    return
+                    self.contact_book.remove(contact)
+                    print("\nContact Deleted")
+    
+    def search_by_city(self):
+        city_name = input("Enter the city name: ")
+        for key, value in self.user_contact.items(): # print the heading of the address book
+                    print("{:<20}".format(key),end="")
+        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        for contact in self.contact_book:
+            if contact['city'] == city_name:
+                for key, value in contact.items():
+                    print("{:<20}".format(value),end="") # print the contacts
+                
 
 
 # class to create a new address book
@@ -101,13 +110,16 @@ class CreateAddressBook(AddressBook):
             super().add_multiple_contact()
         def edit_contact(self):
             super().edit_contact()
-        def deleted_contact(self):
+        def delete_contact(self):
             super().delete_contact()
+        def search_by_city(self):
+            super().search_by_city()
 
 def main_menu():
     choice = 1 # variable to loop main menu
     address_book_list = []
     while choice != 0:
+            book_already_present = 0
             choice_2 = 1 # variable to loop address book menu
             print("\n_____MAIN---MENU_____\n")
             print("1. CREATE AN ADDRESS BOOK")
@@ -124,8 +136,11 @@ def main_menu():
                 match choice:
                     case 1: # case to create a new address book
                         book_name = input("\nENTER THE ADDRESS BOOK NAME: ") # enter the address book name
-                        if book_name in address_book_list:
-                            print("\nAddress book already present")
+                        for book in address_book_list:
+                            if book_name in book.keys():
+                                book_already_present += 1
+                        if book_already_present > 0:
+                                print("\nAddress book already exists")
                         else:
                             new_book = CreateAddressBook() # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
@@ -138,7 +153,6 @@ def main_menu():
                                 if book_choice>=len(address_book_list)+1 or book_choice<=0:
                                     print("\nInvalid address book")
                                 else:
-                                    print("hello")
                                     for key, value in address_book_list[book_choice-1].items(): # seperating ke and value addressbook dictionary
                                         book_choice = key
                                         book_choice_value = value 
@@ -149,7 +163,8 @@ def main_menu():
                                         print("3. ADD MULTIPLE CONTACT")
                                         print("4. EDIT CONTACT")
                                         print("5. DELETE CONTACT")
-                                        print("6. PRINT ADDRESS BOOK")
+                                        print("6. SEARCH BY CITY")
+                                        print("7. PRINT ADDRESS BOOK")
                                         print("0. GO BACK TO MAIN MENU\n")
                                         try:
                                             choice_2 = int(input("\nEnter your option: "))
@@ -170,6 +185,8 @@ def main_menu():
                                                     case 5:
                                                         book_choice_value.delete_contact()
                                                     case 6:
+                                                        book_choice_value.search_by_city()
+                                                    case 7:
                                                         book_choice_value.print_contact_book()
                         else:
                             print("\nNo Address books found!!") # if no address books are present
