@@ -109,6 +109,13 @@ class AddressBook():
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
                 
+    def count_by_city(self):
+        city_count = 0
+        city_name = input("Enter the city name: ")
+        for contact in self.contact_book:
+            if contact['city'] == city_name:
+                city_count += 1
+        print(f"\nNumber of contacts staying in {city_name}: {city_count}")
 
 
 # class to create a new address book
@@ -127,6 +134,8 @@ class CreateAddressBook(AddressBook):
             super().search_by_city()
         def view_by_state(self):
             super().view_by_state()
+        def count_by_city(self):
+            super().count_by_city()
 
 def main_menu():
     choice = 1 # variable to loop main menu
@@ -178,7 +187,8 @@ def main_menu():
                                         print("5. DELETE CONTACT")
                                         print("6. SEARCH BY CITY")
                                         print("7. VIEW BY STATE")
-                                        print("8. PRINT ADDRESS BOOK")
+                                        print("8. COUNT BY CITY")
+                                        print("9. PRINT ADDRESS BOOK")
                                         print("0. GO BACK TO MAIN MENU\n")
                                         try:
                                             choice_2 = int(input("\nEnter your option: "))
@@ -203,6 +213,8 @@ def main_menu():
                                                     case 7:
                                                         book_choice_value.view_by_state()
                                                     case 8:
+                                                        book_choice_value.count_by_city()
+                                                    case 9:
                                                         book_choice_value.print_contact_book()
                         else:
                             print("\nNo Address books found!!") # if no address books are present
