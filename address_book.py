@@ -5,7 +5,6 @@ class AddressBook():
 
 # method to print the address book
     def print_contact_book(self):
-        print("\n")
         for key, value in self.user_contact.items(): # print the heading of the address book
             print("{:<20}".format(key),end="")
         print("-------------------------------------------------------------------------------------------------------------------------------------------------")
@@ -88,6 +87,7 @@ class AddressBook():
                     self.contact_book.remove(contact)
                     print("\nContact Deleted")
     
+    # function to searh a person by city
     def search_by_city(self):
         city_name = input("Enter the city name: ")
         for key, value in self.user_contact.items(): # print the heading of the address book
@@ -95,6 +95,17 @@ class AddressBook():
         print("-------------------------------------------------------------------------------------------------------------------------------------------------")
         for contact in self.contact_book:
             if contact['city'] == city_name:
+                for key, value in contact.items():
+                    print("{:<20}".format(value),end="") # print the contacts
+    
+    # function to search a person by state
+    def view_by_state(self):
+        state_name = input("Enter the state name: ")
+        for key, value in self.user_contact.items(): # print the heading of the address book
+                    print("{:<20}".format(key),end="")
+        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        for contact in self.contact_book:
+            if contact['state'] == state_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
                 
@@ -114,6 +125,8 @@ class CreateAddressBook(AddressBook):
             super().delete_contact()
         def search_by_city(self):
             super().search_by_city()
+        def view_by_state(self):
+            super().view_by_state()
 
 def main_menu():
     choice = 1 # variable to loop main menu
@@ -157,14 +170,15 @@ def main_menu():
                                         book_choice = key
                                         book_choice_value = value 
                                     while choice_2 != 0:
-                                        print(f"---{book_choice} AddressBook MENU---")
+                                        print(f"\n---{book_choice} AddressBook MENU---")
                                         print("\n1. CREATE NEW CONTACT")
                                         print("2. ADD NEW CONTACT")
                                         print("3. ADD MULTIPLE CONTACT")
                                         print("4. EDIT CONTACT")
                                         print("5. DELETE CONTACT")
                                         print("6. SEARCH BY CITY")
-                                        print("7. PRINT ADDRESS BOOK")
+                                        print("7. VIEW BY STATE")
+                                        print("8. PRINT ADDRESS BOOK")
                                         print("0. GO BACK TO MAIN MENU\n")
                                         try:
                                             choice_2 = int(input("\nEnter your option: "))
@@ -187,6 +201,8 @@ def main_menu():
                                                     case 6:
                                                         book_choice_value.search_by_city()
                                                     case 7:
+                                                        book_choice_value.view_by_state()
+                                                    case 8:
                                                         book_choice_value.print_contact_book()
                         else:
                             print("\nNo Address books found!!") # if no address books are present
