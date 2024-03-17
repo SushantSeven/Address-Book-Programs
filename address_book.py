@@ -5,6 +5,7 @@ class AddressBook():
 
 # method to print the address book
     def print_contact_book(self):
+        print("\n~~~~~~~~~~~~~~~~All Contacts~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
         for key, value in self.user_contact.items(): # print the heading of the address book
             print("{:<20}".format(key),end="")
         print("-------------------------------------------------------------------------------------------------------------------------------------------------")
@@ -108,7 +109,8 @@ class AddressBook():
             if contact['state'] == state_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
-                
+ 
+# function to count the number of contacts by state 
     def count_by_city(self):
         city_count = 0
         city_name = input("Enter the city name: ")
@@ -116,6 +118,20 @@ class AddressBook():
             if contact['city'] == city_name:
                 city_count += 1
         print(f"\nNumber of contacts staying in {city_name}: {city_count}")
+
+#  function to sort contacts by their name
+    def sort_by_name(self):
+        self.sorted_contacts = sorted(self.contact_book, key = lambda  item: item['first name'])
+        print("\n~~~~~~~~~~~~Sorted Contacts Alphabetically~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+        for key, value in self.user_contact.items(): # print the heading of the address book
+            print("{:<20}".format(key),end="")
+        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        for contact in self.sorted_contacts:
+            for key, value in contact.items():
+                print("{:<20}".format(value),end="") # print the contacts
+        print("\n")
+        
+ 
 
 
 # class to create a new address book
@@ -136,6 +152,8 @@ class CreateAddressBook(AddressBook):
             super().view_by_state()
         def count_by_city(self):
             super().count_by_city()
+        def sort_by_name(self):
+            super().sort_by_name()
 
 def main_menu():
     choice = 1 # variable to loop main menu
@@ -143,7 +161,7 @@ def main_menu():
     while choice != 0:
             book_already_present = 0
             choice_2 = 1 # variable to loop address book menu
-            print("\n_____MAIN---MENU_____\n")
+            print("\n_____MAIN~MENU_____\n")
             print("1. CREATE AN ADDRESS BOOK")
             print("2. SELECT ADDRESS BOOK")
             try:
@@ -179,7 +197,7 @@ def main_menu():
                                         book_choice = key
                                         book_choice_value = value 
                                     while choice_2 != 0:
-                                        print(f"\n---{book_choice} AddressBook MENU---")
+                                        print(f"\n~~~~~~~{book_choice} AddressBook MENU~~~~~~~~")
                                         print("\n1. CREATE NEW CONTACT")
                                         print("2. ADD NEW CONTACT")
                                         print("3. ADD MULTIPLE CONTACT")
@@ -188,7 +206,8 @@ def main_menu():
                                         print("6. SEARCH BY CITY")
                                         print("7. VIEW BY STATE")
                                         print("8. COUNT BY CITY")
-                                        print("9. PRINT ADDRESS BOOK")
+                                        print("9. SORT CONTACTS BY NAME")
+                                        print("10. PRINT ADDRESS BOOK")
                                         print("0. GO BACK TO MAIN MENU\n")
                                         try:
                                             choice_2 = int(input("\nEnter your option: "))
@@ -215,6 +234,8 @@ def main_menu():
                                                     case 8:
                                                         book_choice_value.count_by_city()
                                                     case 9:
+                                                        book_choice_value.sort_by_name()
+                                                    case 10:
                                                         book_choice_value.print_contact_book()
                         else:
                             print("\nNo Address books found!!") # if no address books are present
