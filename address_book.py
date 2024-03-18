@@ -1,18 +1,19 @@
 class AddressBook():
 
-    contact_book= []
-    user_contact = {}
+    def __init__(self):
+        self.contact_book= []
+        self.user_contact = {}
+
 
 # method to print the address book
     def print_contact_book(self):
-        print("\n")
         for key, value in self.user_contact.items(): # print the heading of the address book
             print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             for key, value in contact.items():
                 print("{:<20}".format(value),end="") # print the contacts
-        print("\n")
+            print("\n")
     
 # function to create a contact
     def create_contact(self):
@@ -46,31 +47,37 @@ class AddressBook():
     
 # function to add multiple contacts to the address book 
     def add_multiple_contact(self):
-        num_of_contacts = int(input("Enter the number of contacts you want to add: "))
-        for i in range(1,num_of_contacts+1):
-            print("\nENTER THE DETAILS OF PERSON",i)
-            self.create_contact() # contact is created 
-        print("\n",num_of_contacts,"CONTACT(S) ADDED SUCCESSFULLY!!!")
+        try:
+            num_of_contacts = int(input("Enter the number of contacts you want to add: "))
+        except ValueError:
+            print("\nInvalid Entry!!")
+        else:
+            for i in range(1,num_of_contacts+1):
+                print("\nENTER THE DETAILS OF PERSON",i)
+                self.create_contact() # contact is created 
+            print("\n",num_of_contacts,"CONTACT(S) ADDED SUCCESSFULLY!!!")
 
 # function to edit a contact
     def edit_contact(self):
         print("\n-------EDIT DETAILS-------\n")
-        f_name = input("ENTER THE FIRST NAME: ") # name of the user is taken
-        l_name = input("ENTER THE FIRST NAME: ") # name of the user is taken
-        present_or_not = 0
+        f_name = input("ENTER THE FIRSt NAME: ")
+        l_name = input("ENTER THE LAST NAME: ")
+        presen_or_not = 0
         for contact in self.contact_book:
-            if contact["first name"] == f_name and contact["last name"] == l_name: # checking if the user is present in the contact book or not
-                present_or_not +=1
-        if present_or_not == 0:
+            if contact["first name"] == f_name and contact['last name'] == l_name:
+                presen_or_not +=1
+        if presen_or_not == 0:
             print("Person not present!")
         else:
-            details_to_edited = input("ENTER THE FIELD TO BE EDITED: ")
-            for contact in self.contact_book: # editing the details
-                    if contact["first name"] == f_name and contact["last name"] == l_name:
-                        contact[details_to_edited] = input(f"ENTER THE NEW {details_to_edited}: ")
+            details_to_edited = input("ENTER THE TO BE EDITED: ").split(",")
+            for contact in self.contact_book:
+                if contact["first name"] == f_name and contact['last name'] == l_name:
+                    for x in details_to_edited:
+                        contact[x] = input(f"ENTER THE NEW {x}: ")
 
             print("\nEDITED DETAILS ARE:\n")
             self.print_contact_book()
+
 
 # functio to delete a contact
     def delete_contact(self):
@@ -99,22 +106,6 @@ class AddressBook():
                     print("{:<20}".format(value),end="") # print the contacts
                 
 
-
-# class to create a new address book
-class CreateAddressBook(AddressBook):
-        def create_contact(self):
-            super().create_contact()
-        def add_new_contact(self):
-            super().add_new_contact()
-        def add_multiple_contact(self):
-            super().add_multiple_contact()
-        def edit_contact(self):
-            super().edit_contact()
-        def delete_contact(self):
-            super().delete_contact()
-        def search_by_city(self):
-            super().search_by_city()
-
 def main_menu():
     choice = 1 # variable to loop main menu
     address_book_list = []
@@ -142,20 +133,24 @@ def main_menu():
                         if book_already_present > 0:
                                 print("\nAddress book already exists")
                         else:
-                            new_book = CreateAddressBook() # creating instance of create new address book
+                            new_book = AddressBook() # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
                     case 2: # case to view existing address books
                         if len(address_book_list)>0:
                                 for b in range(len(address_book_list)): # displaying address books
                                     for key in address_book_list[b]:
                                         print(b+1,key)
-                                book_choice = int(input("\nChoose an address book: ")) # choosing an address book
-                                if book_choice>=len(address_book_list)+1 or book_choice<=0:
-                                    print("\nInvalid address book")
+                                try:
+                                    book_choice = int(input("\nChoose an address book: ")) # choosing an address book
+                                except ValueError:
+                                    print("\nInvalid Option!!")
                                 else:
-                                    for key, value in address_book_list[book_choice-1].items(): # seperating ke and value addressbook dictionary
-                                        book_choice = key
-                                        book_choice_value = value 
+                                    if book_choice>=len(address_book_list)+1 or book_choice<=0:
+                                        print("\nInvalid address book")
+                                    else:
+                                        for key, value in address_book_list[book_choice-1].items(): # seperating ke and value addressbook dictionary
+                                            book_choice = key
+                                            book_choice_value = value
                                     while choice_2 != 0:
                                         print(f"---{book_choice} AddressBook MENU---")
                                         print("\n1. CREATE NEW CONTACT")
