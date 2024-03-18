@@ -1,7 +1,8 @@
 class AddressBook():
 
-    contact_book= []
-    user_contact = {}
+    def __init__(self):
+        self.contact_book= []
+        self.user_contact = {}
 
 # method to print the address book
     def print_contact_book(self):
