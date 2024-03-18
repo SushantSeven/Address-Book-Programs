@@ -1,16 +1,17 @@
 class AddressBook():
 
-    contact_book= []
-    user_contact = {}
+    def __init__(self):
+        self.contact_book= []
+        self.user_contact = {}
 
     def print_contact_book(self):
         for key, value in self.user_contact.items():
             print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             for key, value in contact.items():
                 print("{:<20}".format(value),end="")
-        print("\n")
+            print("\n")
     
     # function to create a contact
     def create_contact(self):
@@ -36,20 +37,21 @@ class AddressBook():
             self.ch = input("\nPress Y to add another person's details or press X if you are done: ").lower()
         return self.contact_book
 
+# function to edit a contact
     def edit_contact(self):
-        self.add_new_contact()
         print("\n-------EDIT DETAILS-------\n")
-        name = input("ENTER THE NAME: ")
+        f_name = input("ENTER THE FIRSt NAME: ")
+        l_name = input("ENTER THE LAST NAME: ")
         presen_or_not = 0
         for contact in self.contact_book:
-            if contact["first name"] == name:
+            if contact["first name"] == f_name and contact['last name'] == l_name:
                 presen_or_not +=1
         if presen_or_not == 0:
             print("Person not present!")
         else:
             details_to_edited = input("ENTER THE TO BE EDITED: ").split(",")
             for contact in self.contact_book:
-                if contact["first name"] == name:
+                if contact["first name"] == f_name and contact['last name'] == l_name:
                     for x in details_to_edited:
                         contact[x] = input(f"ENTER THE NEW {x}: ")
 
@@ -75,10 +77,8 @@ def main_menu():
                     case 1:
                         user.create_contact()
                     case 2:
-                        # user = AddressBook() # creating instance of address book class
                         user.add_new_contact()
                     case 3:
-                        # user = AddressBook() # creating instance of address book class
                         user.edit_contact()
                     
 
