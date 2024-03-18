@@ -7,11 +7,11 @@ class AddressBook():
     def print_contact_book(self):
         for key, value in self.user_contact.items(): # print the heading of the address book
             print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             for key, value in contact.items():
                 print("{:<20}".format(value),end="") # print the contacts
-        print("\n")
+            print("\n")
     
     # function to create a contact
     def create_contact(self):
@@ -37,35 +37,39 @@ class AddressBook():
         return self.contact_book
 
     def edit_contact(self):
-        self.add_new_contact() # add new contact is called
         print("\n-------EDIT DETAILS-------\n")
-        name = input("ENTER THE NAME: ") # name of the user is taken
-        present_or_not = 0
+        f_name = input("ENTER THE FIRSt NAME: ")
+        l_name = input("ENTER THE LAST NAME: ")
+        presen_or_not = 0
         for contact in self.contact_book:
-            if contact["first name"] == name: # checking if the user is present in the contact book or not
-                present_or_not +=1
-        if present_or_not == 0:
+            if contact["first name"] == f_name and contact['last name'] == l_name:
+                presen_or_not +=1
+        if presen_or_not == 0:
             print("Person not present!")
         else:
-            details_to_edited = input("ENTER THE FIELD TO BE EDITED: ")
-            for contact in self.contact_book: # editing the details
-                    if contact["first name"] == name:
-                        contact[details_to_edited] = input(f"ENTER THE NEW {details_to_edited}: ")
+            details_to_edited = input("ENTER THE TO BE EDITED: ").split(",")
+            for contact in self.contact_book:
+                if contact["first name"] == f_name and contact['last name'] == l_name:
+                    for x in details_to_edited:
+                        contact[x] = input(f"ENTER THE NEW {x}: ")
 
             print("\nEDITED DETAILS ARE:\n")
             self.print_contact_book()
 
     def delete_contact(self):
-        self.add_new_contact() # add new contact method is called
-        conatct_del = input("Enter the name of the contact to be deleted: ") # name of the contact to be deleted is takes
+        conatct_del_fname = input("Enter the first name of the contact to be deleted: ") # name of the contact to be deleted is takes
+        conatct_del_lname = input("Enter the last name of the contact to be deleted: ") # name of the contact to be deleted is takes
+        present_or_not = 0
         for contact in self.contact_book:
-            if conatct_del in contact.values():
-                contact.clear()  # contact is deleted if it is present in the address book
-                print("After deletion-")
-                self.print_contact_book()
-                return
-            else:
-                print("Contact not present")
+            if contact["first name"] == conatct_del_fname and contact["last name"] == conatct_del_lname: # checking if the user is present in the contact book or not
+                present_or_not +=1
+        if present_or_not == 0:
+            print("\nContact not found!!")
+        else:
+            for contact in self.contact_book:
+                if conatct_del_fname in contact.values() and conatct_del_lname in contact.values():
+                    self.contact_book.remove(contact)
+                    print("\nContact Deleted")
 
 def main_menu():
     choice = 1
