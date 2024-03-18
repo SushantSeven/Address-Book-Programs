@@ -95,24 +95,24 @@ class AddressBook():
     
     # function to searh a person by city
     def search_by_city(self):
-        city_name = input("Enter the city name: ")
+        city_name = input("Enter the city name: ").lower()
         for key, value in self.user_contact.items(): # print the heading of the address book
                     print("{:<20}".format(key),end="")
         print("-------------------------------------------------------------------------------------------------------------------------------------------------")
         for contact in self.contact_book:
-            if contact['city'] == city_name:
+            if contact['city'].lower() == city_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
                 print("\n")
     
     # function to search a person by state
     def view_by_state(self):
-        state_name = input("Enter the state name: ")
+        state_name = input("Enter the state name: ").lower()
         for key, value in self.user_contact.items(): # print the heading of the address book
                     print("{:<20}".format(key),end="")
         print("-------------------------------------------------------------------------------------------------------------------------------------------------")
         for contact in self.contact_book:
-            if contact['state'] == state_name:
+            if contact['state'].lower() == state_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
                 print("\n")
@@ -120,9 +120,9 @@ class AddressBook():
 # function to count the number of contacts by state 
     def count_by_city(self):
         city_count = 0
-        city_name = input("Enter the city name: ")
+        city_name = input("Enter the city name: ").lower()
         for contact in self.contact_book:
-            if contact['city'] == city_name:
+            if contact['city'].lower() == city_name:
                 city_count += 1
         print(f"\nNumber of contacts staying in {city_name}: {city_count}")
 
