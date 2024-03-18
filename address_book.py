@@ -1,18 +1,19 @@
 class AddressBook():
 
-    contact_book= []
-    user_contact = {}
+    def __init__(self):
+        self.contact_book= []
+        self.user_contact = {}
 
 # method to print the address book
     def print_contact_book(self):
         print("\n~~~~~~~~~~~~~~~~All Contacts~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
         for key, value in self.user_contact.items(): # print the heading of the address book
             print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             for key, value in contact.items():
                 print("{:<20}".format(value),end="") # print the contacts
-        print("\n")
+            print("\n")
     
 # function to create a contact
     def create_contact(self):
@@ -46,11 +47,15 @@ class AddressBook():
     
 # function to add multiple contacts to the address book 
     def add_multiple_contact(self):
-        num_of_contacts = int(input("Enter the number of contacts you want to add: "))
-        for i in range(1,num_of_contacts+1):
-            print("\nENTER THE DETAILS OF PERSON",i)
-            self.create_contact() # contact is created 
-        print("\n",num_of_contacts,"CONTACT(S) ADDED SUCCESSFULLY!!!")
+        try:
+            num_of_contacts = int(input("Enter the number of contacts you want to add: "))
+        except ValueError:
+            print("\nInvalid Option!!")
+        else:
+            for i in range(1,num_of_contacts+1):
+                print("\nENTER THE DETAILS OF PERSON",i)
+                self.create_contact() # contact is created 
+            print("\n",num_of_contacts,"CONTACT(S) ADDED SUCCESSFULLY!!!")
 
 # function to edit a contact
     def edit_contact(self):
@@ -98,6 +103,7 @@ class AddressBook():
             if contact['city'] == city_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
+                print("\n")
     
     # function to search a person by state
     def view_by_state(self):
@@ -109,6 +115,7 @@ class AddressBook():
             if contact['state'] == state_name:
                 for key, value in contact.items():
                     print("{:<20}".format(value),end="") # print the contacts
+                print("\n")
  
 # function to count the number of contacts by state 
     def count_by_city(self):
@@ -129,31 +136,19 @@ class AddressBook():
         for contact in self.sorted_contacts:
             for key, value in contact.items():
                 print("{:<20}".format(value),end="") # print the contacts
-        print("\n")
+            print("\n")
         
- 
-
-
-# class to create a new address book
-class CreateAddressBook(AddressBook):
-        def create_contact(self):
-            super().create_contact()
-        def add_new_contact(self):
-            super().add_new_contact()
-        def add_multiple_contact(self):
-            super().add_multiple_contact()
-        def edit_contact(self):
-            super().edit_contact()
-        def delete_contact(self):
-            super().delete_contact()
-        def search_by_city(self):
-            super().search_by_city()
-        def view_by_state(self):
-            super().view_by_state()
-        def count_by_city(self):
-            super().count_by_city()
-        def sort_by_name(self):
-            super().sort_by_name()
+    #  function to sort contacts by zip code
+    def sort_by_zip(self):
+        self.sorted_contacts_by_zip = sorted(self.contact_book, key = lambda  item: item['zip'])
+        print("\n~~~~~~~~~~~~Sorted Contacts By Zip~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+        for key, value in self.user_contact.items(): # print the heading of the address book
+            print("{:<20}".format(key),end="")
+        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        for contact in self.sorted_contacts_by_zip:
+            for key, value in contact.items():
+                print("{:<20}".format(value),end="") # print the contacts
+            print("\n") 
 
 def main_menu():
     choice = 1 # variable to loop main menu
@@ -182,61 +177,69 @@ def main_menu():
                         if book_already_present > 0:
                                 print("\nAddress book already exists")
                         else:
-                            new_book = CreateAddressBook() # creating instance of create new address book
+                            new_book = AddressBook() # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
                     case 2: # case to view existing address books
                         if len(address_book_list)>0:
                                 for b in range(len(address_book_list)): # displaying address books
                                     for key in address_book_list[b]:
                                         print(b+1,key)
-                                book_choice = int(input("\nChoose an address book: ")) # choosing an address book
-                                if book_choice>=len(address_book_list)+1 or book_choice<=0:
-                                    print("\nInvalid address book")
+                                try:
+                                    book_choice = int(input("\nChoose an address book: ")) # choosing an address book
+                                except ValueError:
+                                    print("\nInvalid Option!!")
                                 else:
-                                    for key, value in address_book_list[book_choice-1].items(): # seperating ke and value addressbook dictionary
-                                        book_choice = key
-                                        book_choice_value = value 
-                                    while choice_2 != 0:
-                                        print(f"\n~~~~~~~{book_choice} AddressBook MENU~~~~~~~~")
-                                        print("\n1. CREATE NEW CONTACT")
-                                        print("2. ADD NEW CONTACT")
-                                        print("3. ADD MULTIPLE CONTACT")
-                                        print("4. EDIT CONTACT")
-                                        print("5. DELETE CONTACT")
-                                        print("6. SEARCH BY CITY")
-                                        print("7. VIEW BY STATE")
-                                        print("8. COUNT BY CITY")
-                                        print("9. SORT CONTACTS BY NAME")
-                                        print("10. PRINT ADDRESS BOOK")
-                                        print("0. GO BACK TO MAIN MENU\n")
-                                        try:
-                                            choice_2 = int(input("\nEnter your option: "))
-                                        except ValueError:
-                                            print("\nInvalid option")
-                                        except Exception as ex:
-                                            print(ex)
-                                        else:
-                                            match choice_2:
-                                                    case 1:
-                                                        book_choice_value.create_contact()
-                                                    case 2:
-                                                        book_choice_value.add_new_contact()
-                                                    case 3:
-                                                        book_choice_value.add_multiple_contact()
-                                                    case 4:
-                                                        book_choice_value.edit_contact()
-                                                    case 5:
-                                                        book_choice_value.delete_contact()
-                                                    case 6:
-                                                        book_choice_value.search_by_city()
-                                                    case 7:
-                                                        book_choice_value.view_by_state()
-                                                    case 8:
-                                                        book_choice_value.count_by_city()
-                                                    case 9:
-                                                        book_choice_value.sort_by_name()
-                                                    case 10:
-                                                        book_choice_value.print_contact_book()
+                                    if book_choice>=len(address_book_list)+1 or book_choice<=0:
+                                        print("\nInvalid address book")
+                                    else:
+                                        for key, value in address_book_list[book_choice-1].items(): # seperating ke and value addressbook dictionary
+                                            book_choice = key
+                                            book_choice_value = value
+                                        while choice_2 != 0:
+                                            print(f"\n~~~~~~~{book_choice} AddressBook MENU~~~~~~~~")
+                                            print("\n1. CREATE NEW CONTACT")
+                                            print("2. ADD NEW CONTACT")
+                                            print("3. ADD MULTIPLE CONTACT")
+                                            print("4. EDIT CONTACT")
+                                            print("5. DELETE CONTACT")
+                                            print("6. SEARCH BY CITY")
+                                            print("7. VIEW BY STATE")
+                                            print("8. COUNT BY CITY")
+                                            print("9. SORT CONTACTS BY NAME")
+                                            print("10. SORT CONTACTS BY ZIP CODE")
+                                            print("11. PRINT ADDRESS BOOK")
+                                            print("0. GO BACK TO MAIN MENU\n")
+                                            try:
+                                                choice_2 = int(input("\nEnter your option: "))
+                                            except ValueError:
+                                                print("\nInvalid option")
+                                            except Exception as ex:
+                                                print(ex)
+                                            else:
+                                                match choice_2:
+                                                        case 1:
+                                                            book_choice_value.create_contact()
+                                                        case 2:
+                                                            book_choice_value.add_new_contact()
+                                                        case 3:
+                                                            book_choice_value.add_multiple_contact()
+                                                        case 4:
+                                                            book_choice_value.edit_contact()
+                                                        case 5:
+                                                            book_choice_value.delete_contact()
+                                                        case 6:
+                                                            book_choice_value.search_by_city()
+                                                        case 7:
+                                                            book_choice_value.view_by_state()
+                                                        case 8:
+                                                            book_choice_value.count_by_city()
+                                                        case 9:
+                                                            book_choice_value.sort_by_name()
+                                                        case 10:
+                                                            book_choice_value.sort_by_zip()
+                                                        case 11:
+                                                            book_choice_value.print_contact_book()
+
                         else:
                             print("\nNo Address books found!!") # if no address books are present
 
