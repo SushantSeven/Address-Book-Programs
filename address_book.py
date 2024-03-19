@@ -1,4 +1,4 @@
-import csv
+import json
 
 class AddressBook():
 
@@ -8,10 +8,10 @@ class AddressBook():
         self.book_name = book_name
         self.header_list = ["first name","last name","address", "city", "state", "zip", "phone", "email"]
 
-# function to read csv file
+# function to read json file
     def read_contact_book(self):
-        with open(f"{self.book_name}.csv","r") as f:
-            dic_reader = csv.DictReader(f)
+        with open(f"{self.book_name}.json","r") as f:
+            dic_reader = json.load(f)
             self.contact_book = list(dic_reader)
 
 # method to print the address book
@@ -43,11 +43,9 @@ class AddressBook():
             self.email = input("# Enter your email: ")
             self.user_contact = {"first name":self.first_name,"last name":self.last_name, "address":self.address, "city":self.city, "state": self.state, "zip":self.zipp, "phone":self.phone, "email":self.email}
             self.contact_book.append(self.user_contact) # appending new contact to address book
-            field_name  = ["first name","last name","address","city","state","zip","phone","email"]
-            with open(f"{self.book_name}.csv", 'w') as f: # saving the details in file line by line
-                csv_writer = csv.DictWriter(f, fieldnames=field_name)
-                csv_writer.writeheader()
-                csv_writer.writerows(self.contact_book)
+            # field_name  = ["first name","last name","address","city","state","zip","phone","email"]
+            with open(f"{self.book_name}.json", 'w') as f: # saving the details in file line by line
+                json.dump(self.contact_book, f)
             print("\ncontact Added!!")
         else:
             print("\nPerson Already exists!!")
@@ -193,7 +191,7 @@ def main_menu():
                         if book_already_present > 0:
                                 print("\nAddress book already exists")
                         else:
-                            with open(f'{book_name}.csv','a') as f:
+                            with open(f'{book_name}.json','a') as f:
                                 print(f"\n{book_name} Address book created\n") # creating a txt file for each addressbook
                             new_book = AddressBook(book_name) # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
