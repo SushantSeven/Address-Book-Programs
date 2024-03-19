@@ -1,3 +1,5 @@
+import csv
+
 class AddressBook():
 
     def __init__(self, book_name):
@@ -6,18 +8,11 @@ class AddressBook():
         self.book_name = book_name
         self.header_list = ["first name","last name","address", "city", "state", "zip", "phone", "email"]
 
+# function to read csv file
     def read_contact_book(self):
-        with open(f"{self.book_name}.txt","r") as f:
-            self.contact_book = []
-            while True:
-                line = f.readline().strip("\n")
-                if not line:
-                    break
-                each_contact = line.split(" ")
-                user_contact = {}
-                for i in range(len(self.header_list)):
-                    user_contact[self.header_list[i]] = each_contact[i]
-                self.contact_book.append(user_contact)
+        with open(f"{self.book_name}.csv","r") as f:
+            dic_reader = csv.DictReader(f)
+            self.contact_book = list(dic_reader)
 
 # method to print the address book
     def print_contact_book(self):
@@ -46,12 +41,14 @@ class AddressBook():
             self.zipp = input("# Enter your zip code: ")
             self.phone = input("# Enter your phone number: ")
             self.email = input("# Enter your email: ")
-            # self.user_contact = {"first name":self.first_name,"last name":self.last_name, "address":self.address, "city":self.city, "state": self.state, "zip":self.zipp, "phone":self.phone, "email":self.email}
-            # self.contact_book.append(self.user_contact) # appending new contact to address book
+            self.user_contact = {"first name":self.first_name,"last name":self.last_name, "address":self.address, "city":self.city, "state": self.state, "zip":self.zipp, "phone":self.phone, "email":self.email}
+            self.contact_book.append(self.user_contact) # appending new contact to address book
+            field_name  = ["first name","last name","address","city","state","zip","phone","email"]
+            with open(f"{self.book_name}.csv", 'w') as f: # saving the details in file line by line
+                csv_writer = csv.DictWriter(f, fieldnames=field_name)
+                csv_writer.writeheader()
+                csv_writer.writerows(self.contact_book)
             print("\ncontact Added!!")
-            with open(f"{self.book_name}.txt", 'a') as f: # saving the details in file line by line
-                f.writelines(f"{self.first_name} {self.last_name} {self.address} {self.city} {self.state} {self.zipp} {self.phone} {self.email}\n")
-            # return self.user_contact
         else:
             print("\nPerson Already exists!!")
     
@@ -196,7 +193,7 @@ def main_menu():
                         if book_already_present > 0:
                                 print("\nAddress book already exists")
                         else:
-                            with open(f'{book_name}.txt','a') as f:
+                            with open(f'{book_name}.csv','a') as f:
                                 print(f"\n{book_name} Address book created\n") # creating a txt file for each addressbook
                             new_book = AddressBook(book_name) # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
