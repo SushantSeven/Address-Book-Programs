@@ -1,13 +1,29 @@
 class AddressBook():
 
-    def __init__(self):
+    def __init__(self, book_name):
         self.contact_book= []
-        self.user_contact = {}
+        # self.user_contact = {}
+        self.book_name = book_name
+        self.header_list = ["first name","last name","address", "city", "state", "zip", "phone", "email"]
+
+    def read_contact_book(self):
+        with open(f"{self.book_name}.txt","r") as f:
+            self.contact_book = []
+            while True:
+                line = f.readline().strip("\n")
+                if not line:
+                    break
+                each_contact = line.split(" ")
+                user_contact = {}
+                for i in range(len(self.header_list)):
+                    user_contact[self.header_list[i]] = each_contact[i]
+                self.contact_book.append(user_contact)
 
 # method to print the address book
     def print_contact_book(self):
+        self.read_contact_book()
         print("\n~~~~~~~~~~~~~~~~All Contacts~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-        for key, value in self.user_contact.items(): # print the heading of the address book
+        for key in self.header_list: # print the heading of the address book
             print("{:<20}".format(key),end="")
         print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
@@ -30,10 +46,12 @@ class AddressBook():
             self.zipp = input("# Enter your zip code: ")
             self.phone = input("# Enter your phone number: ")
             self.email = input("# Enter your email: ")
-            self.user_contact = {"first name":self.first_name,"last name":self.last_name, "address":self.address, "city":self.city, "state": self.state, "zip":self.zipp, "phone":self.phone, "email":self.email}
-            self.contact_book.append(self.user_contact) # appending new contact to address book
+            # self.user_contact = {"first name":self.first_name,"last name":self.last_name, "address":self.address, "city":self.city, "state": self.state, "zip":self.zipp, "phone":self.phone, "email":self.email}
+            # self.contact_book.append(self.user_contact) # appending new contact to address book
             print("\ncontact Added!!")
-            return self.user_contact
+            with open(f"{self.book_name}.txt", 'a') as f: # saving the details in file line by line
+                f.writelines(f"{self.first_name} {self.last_name} {self.address} {self.city} {self.state} {self.zipp} {self.phone} {self.email}\n")
+            # return self.user_contact
         else:
             print("\nPerson Already exists!!")
     
@@ -59,6 +77,7 @@ class AddressBook():
 
 # function to edit a contact
     def edit_contact(self):
+        self.read_contact_book()
         print("\n-------EDIT DETAILS-------\n")
         f_name = input("ENTER THE FIRST NAME: ") # name of the user is taken
         l_name = input("ENTER THE FIRST NAME: ") # name of the user is taken
@@ -70,7 +89,7 @@ class AddressBook():
             print("Person not present!")
         else:
             details_to_edited = input("ENTER THE FIELD TO BE EDITED: ")
-            for contact in self.contact_book: # editing the details
+            for i in range(len(self.contact_book)): # editing the details
                     if contact["first name"] == f_name and contact["last name"] == l_name:
                         contact[details_to_edited] = input(f"ENTER THE NEW {details_to_edited}: ")
 
@@ -177,7 +196,9 @@ def main_menu():
                         if book_already_present > 0:
                                 print("\nAddress book already exists")
                         else:
-                            new_book = AddressBook() # creating instance of create new address book
+                            with open(f'{book_name}.txt','a') as f:
+                                print(f"\n{book_name} Address book created\n") # creating a txt file for each addressbook
+                            new_book = AddressBook(book_name) # creating instance of create new address book
                             address_book_list.append({book_name:new_book}) # saving it in a list as key value pairs
                     case 2: # case to view existing address books
                         if len(address_book_list)>0:
