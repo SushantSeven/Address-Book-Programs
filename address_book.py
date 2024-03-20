@@ -98,7 +98,7 @@ class AddressBook():
         city_name = input("Enter the city name: ").lower()
         for key, value in self.user_contact.items(): # print the heading of the address book
                     print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             if contact['city'].lower() == city_name:
                 for key, value in contact.items():
