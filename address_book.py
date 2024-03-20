@@ -109,7 +109,7 @@ class AddressBook():
         state_name = input("Enter the state name: ").lower()
         for key, value in self.user_contact.items(): # print the heading of the address book
                     print("{:<20}".format(key),end="")
-        print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+        print("\n-------------------------------------------------------------------------------------------------------------------------------------------------\n")
         for contact in self.contact_book:
             if contact['state'].lower() == state_name:
                 for key, value in contact.items():
